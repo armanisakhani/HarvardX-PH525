@@ -1,0 +1,17 @@
+{
+    "contents" : "library(RODBC)\n\ntestdb <- file.path(\"FDR_TotalFeature.accdb\")\n\nchannel <- odbcConnectAccess2007(testdb)\n\nWQ_data <- sqlFetch(channel, \"WaterQuality\")\n\n",
+    "created" : 1421882815442.000,
+    "dirty" : true,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "1949281937",
+    "id" : "F6CCB2A6",
+    "lastKnownWriteTime" : 153611152,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}

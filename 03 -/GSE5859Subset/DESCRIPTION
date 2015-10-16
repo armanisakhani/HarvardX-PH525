@@ -1,0 +1,8 @@
+Package: GSE5859Subset
+Title: GSE5859Subset
+Version: 1.0
+Date: 2015-02-25
+Author: Michael Love and Rafael Irizarry
+Maintainer: Michael Love <mlove@jimmy.harvard.edu>
+Description: Data Analysis for Genomics datasets
+License: GPL-3
