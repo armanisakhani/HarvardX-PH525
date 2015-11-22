@@ -1,0 +1,17 @@
+{
+    "contents" : "data <- read.csv(file = \"femaleControlsPopulation.csv\")\nnames(data)\nhist(data[,\"Bodyweight\"])\nBodyweight <- data[,\"Bodyweight\"]\nset.seed(1)\nmeans5 <- sapply(1:1000, function(x) mean(sample(Bodyweight,5)))\nhist(means5)\nset.seed(1)\nmeans50 <- sapply(1:1000, function(x) mean(sample(Bodyweight,50)))\nhist(means50)\nd <- ecdf(means50)\nd(25) - d(23)\npnorm(25,mean = 23.9,sd = 0.43) - pnorm(23,mean = 23.9,sd = 0.43)\n\n## part 2\nrm(list = ls())\nlibrary(downloader) \nurl <- \"https://raw.githubusercontent.com/genomicsclass/dagdata/master/inst/extdata/mice_pheno.csv\"\nfilename <- basename(url)\ndownload(url, destfile=filename)\ndat <- read.csv(filename) \ndat <- na.omit( dat )\nlibrary(dplyr)\nstr(dat)\nx <- unlist(select(filter(.data = dat, Sex == \"M\", Diet == \"chow\"),Bodyweight))\nmean(x)\nlibrary(rafalib)\npopsd(x)\nset.seed(1)\nx25 <- mean(sample(x, 25))\n\ny <- unlist(select(filter(.data = dat, Sex == \"M\", Diet == \"hf\"),Bodyweight))\nmean(y)\npopsd(y)\nset.seed(1)\ny25 <- mean(sample(y, 25))\nmean(y) - mean(x)\nabs((y25 - x25) - (mean(y) - mean(x)))\n\nx <- unlist(select(filter(.data = dat, Sex == \"F\", Diet == \"chow\"),Bodyweight))\nmean(x)\nlibrary(rafalib)\npopsd(x)\nset.seed(1)\nx25 <- mean(sample(x, 25))\n\ny <- unlist(select(filter(.data = dat, Sex == \"F\", Diet == \"hf\"),Bodyweight))\nmean(y)\npopsd(y)\nset.seed(1)\ny25 <- mean(sample(y, 25))\nmean(y) - mean(x)\nabs((y25 - x25) - (mean(y) - mean(x)))\n\n## Part 3\n\n1 - pnorm(-1)*2\n1 - pnorm(-2)*2\n1 - pnorm(-3)*2\n\ny <- unlist(select(filter(.data = dat, Sex == \"M\", Diet == \"chow\"),Bodyweight))\nd <- ecdf(y)\nd(mean(y) + popsd(y)) - d(mean(y) - popsd(y))\nd(mean(y) + 2*popsd(y)) - d(mean(y) - 2*popsd(y))\nd(mean(y) + 3*popsd(y)) - d(mean(y) - 3*popsd(y))\n\ny <- filter(dat, Sex==\"M\" & Diet==\"chow\") %>% select(Bodyweight) %>% unlist\navgs <- replicate(10000, mean( sample(y, 25)))\nmypar(1,2)\nhist(avgs)\nqqnorm(avgs)\nqqline(avgs)\nmean(avgs)\npopsd(avgs)\n\n## part 4\nset.seed(1)\nn <- 100\np <- 1/6\nresult <- replicate(10000, mean(sample(1:6, n, replace=TRUE)==6))\nz = (result - p) / sqrt(p*(1-p)/n)\nd <- ecdf(z)\n1 - (d(2) - d(-2))\n",
+    "created" : 1448010091167.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3947142991",
+    "id" : "CFCC58AF",
+    "lastKnownWriteTime" : 1447976053,
+    "path" : "D:/OneDrive/R/My Courses/Online_Courses/HarvardX-PH525/01-Statistics and R for the Life Sciences/week 2 (introduction to random variable)/week2_central_limit_theorem.R",
+    "project_path" : null,
+    "properties" : {
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

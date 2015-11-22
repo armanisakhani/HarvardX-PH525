@@ -1,4 +1,4 @@
-setwd("C:/Users/Arman/Dropbox/My courses/HarvardX PH525/01-Statistics and R for the Life Sciences/week 2 (introduction to random variable)")
+setwd("01-Statistics and R for the Life Sciences/week 2 (introduction to random variable)")
 rm(list = ls())
 dat <- read.csv("femaleMiceWeights.csv")
 
@@ -95,3 +95,19 @@ data[]
 
 
 
+## My works
+dat <- read.csv(file = "femaleControlsPopulation.csv")
+mean(dat$Bodyweight)
+set.seed(5)
+samples <- sample(x = 1:nrow(dat), size = 5, replace = F)
+abs(mean(dat$Bodyweight)- mean(dat$Bodyweight[samples]))
+
+
+set.seed(1)
+means <- rep(0, 1000)
+for(i in 1:1000){
+      idx_sample <- sample(1:nrow(dat),size = 50,replace = F)
+      means[i] <- mean(dat$Bodyweight[idx_sample])
+      
+}
+sum(abs(means - mean(dat$Bodyweight)) >= 1)

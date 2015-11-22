@@ -1,0 +1,18 @@
+{
+    "contents" : "## Part 2\nload(file = \"skew.RData\")\ndim(dat)\npar(mfrow = c(3, 3))\nstr(dat)\nfor(i in 1:9){\n      qqnorm(dat[,i])      \n}\n\n## Part 3\nhead(InsectSprays)\nboxplot(split(InsectSprays[,\"count\"], InsectSprays[,\"spray\"]))\nboxplot(InsectSprays[,\"count\"] ~ InsectSprays[,\"spray\"])\na <-split(InsectSprays, InsectSprays[,\"spray\"])\na\n\nlibrary(dplyr)\ndata(nym.2002, package=\"UsingR\")\nstr(nym.2002)\nboxplot(nym.2002[, \"time\"] ~ nym.2002[, \"gender\"])\npar(mfrow = c(2,1))\nhist(filter(nym.2002, gender == \"Male\") %>% select(time))\nhist(filter(nym.2002, gender == \"Female\") %>% select(time) %>% unlist)\nqqnorm(filter(nym.2002, gender == \"Female\") %>% select(time) %>% unlist)\nqqnorm(filter(nym.2002, gender == \"Male\") %>% select(time) %>% unlist)\n\n## Part 4\n\nlibrary(dplyr)\nmale <- filter(nym.2002, gender == \"Male\")\nfemale <- filter(nym.2002, gender == \"Female\")\ncor(male[, \"time\"], male[, \"age\"])\ncor(female[, \"time\"], female[, \"age\"])\nstr(nym.2002)\npar(mfrow = c(1,2))\ngroups_male <- split(male[,\"time\"], (as.integer(male[,\"age\"]/5)*5))\nboxplot(groups_male)\ngroups_female <- split(male[,\"time\"], (as.integer(female[,\"age\"]/5)*5))\nboxplot(groups_female)\n\n## Part 5\ntime = sort(nym.2002$time)\nhead(time/median(time))\ntail(time/median(time))\n\n# 1) A plot of the ratio of times to the median time, with horizontal lines at twice\n#    as fast as the median time, and twice as slow as the median time.\n\nplot(time/median(time), ylim=c(1/4,4))\nabline(h=c(1/2,1,2))\n\n# 2) A plot of the log2 ratio of times to the median time. The horizontal lines indicate the same as above: twice as fast and twice as slow.\n\nplot(log2(time/median(time)),ylim=c(-2,2))\nabline(h=-1:1)\n",
+    "created" : 1448009122815.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "9940625",
+    "id" : "FC399D08",
+    "lastKnownWriteTime" : 1448013726,
+    "path" : "D:/OneDrive/R/My Courses/Online_Courses/HarvardX-PH525/01-Statistics and R for the Life Sciences/week 4 (EDA)/week4_exploratory_data_analysis.R",
+    "project_path" : "week4_exploratory_data_analysis.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

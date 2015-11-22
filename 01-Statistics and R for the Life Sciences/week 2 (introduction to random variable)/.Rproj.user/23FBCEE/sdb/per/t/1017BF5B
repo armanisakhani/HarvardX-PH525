@@ -1,0 +1,17 @@
+{
+    "contents" : "\nlibrary(\"data.table\", lib.loc=\"~/R/win-library/3.2\")\nsetwd(\"D:/OneDrive/R/My Courses/Online_Courses/HarvardX PH525/01-Statistics and R for the Life Sciences/week 3 (Inference)\")\nbabies <- read.table(\"babies.txt\" , header = T)\nbwt.nonsmoke = babies$bwt[babies$smoke==0]\nbwt.smoke = babies$bwt[babies$smoke==1]\n\nmean(bwt.nonsmoke)-mean(bwt.smoke)\nsd(bwt.nonsmoke)\nsd(bwt.smoke)\n\n\nt.test(bwt.nonsmoke[1:30] , bwt.smoke[1:30])\n\n\n\nlibrary(devtools)\ninstall_github(\"jennybc/gapminder\")\n\nlibrary(gapminder)\ndata(gapminder)\nhead(gapminder)\nindex <- (1:nrow(gapminder))[gapminder[,\"year\"]==1952]\nx <- gapminder[index , \"lifeExp\"]\nmean(x<=40 )\nnames(gapminder)\nprop = function(q) {\n  mean(x <= q)\n}\nprop(40)\nqs = seq(from=min(x), to=max(x), length=20)\nqs\nprops = sapply(qs, prop)\nplot(qs, props)\nprops = sapply(qs, function(q) mean(x <= q))\nplot(ecdf(x))\nnames(gapminder)\npopulation <- gapminder[index , \"pop\"]\nhist(population)\nhist(log(population , 10))\nsd(log(population , 10))\nx <- log(population , 10)\nqqnorm(x)\nz <- (x-mean(x))/sd(x)\nqqnorm(z)\nabline(0,1)\nmax(z)\nF = function(q) pnorm(q, mean=mean(x), sd=sd(x))\npnorm(1)\nn = length(x)\nn * (F(7) - F(6))\nsum(x > 6 & x <= 7)\n",
+    "created" : 1447972067386.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2808037015",
+    "id" : "1017BF5B",
+    "lastKnownWriteTime" : 1436115969,
+    "path" : "D:/OneDrive/R/My Courses/Online_Courses/HarvardX-PH525/01-Statistics and R for the Life Sciences/week 2 (introduction to random variable)/week 2.2.R",
+    "project_path" : "week 2.2.R",
+    "properties" : {
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "type" : "r_source"
+}
