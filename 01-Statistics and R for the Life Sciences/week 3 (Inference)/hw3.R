@@ -1,6 +1,5 @@
  
 library("data.table", lib.loc="~/R/win-library/3.2")
-setwd("D:/OneDrive/R/My Courses/Online_Courses/HarvardX PH525/01-Statistics and R for the Life Sciences/week 3 (Inference)")
 babies <- read.table("babies.txt" , header = T)
 bwt.nonsmoke = babies$bwt[babies$smoke==0]
 bwt.smoke = babies$bwt[babies$smoke==1]

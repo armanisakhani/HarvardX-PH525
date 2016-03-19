@@ -3,3 +3,4 @@
 *.Rhistory
 .png
 .Rproj.user/*/*
+.Rproj.user

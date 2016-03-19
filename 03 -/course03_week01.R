@@ -9,6 +9,13 @@ index <- geneAnnotation[!is.na(geneAnnotation[,"SYMBOL"]),"SYMBOL"] == "ARPC1A"
 g <- geneAnnotation[index, "PROBEID"]
 geneExpression[(1:nrow(geneExpression))[rownames(geneExpression) == g], (1:ncol(geneExpression))[colnames(geneExpression) == s]]
 
+median(apply(geneExpression, 2, median))
+test.group <- function(e, group){
+  t.test(e[group == 0], e[group == 1])$p.value
+}
+g <- factor(sampleInfo$group)
+min(apply(geneExpression, 1, FUN = function(x) test.group(x, g)))
+
 ## video 2
 set.seed(1)
 library(downloader)
@@ -27,20 +34,36 @@ sum(pvals <=0.05)/1000
 sum(pvals <=0.01)/1000
 
 set.seed(100)
-cases = rnorm(10,30,2)
-controls = rnorm(10,30,2)
-t.test(cases,controls)
+pvals <- replicate(20, expr = {
+  cases = rnorm(10,30,2)
+  controls = rnorm(10,30,2)
+  t.test(cases,controls)$p.val
+})
+sum(pvals < 0.05)
 
 set.seed(100)
-n <- rep(0,1000)
+found <- replicate(1000, expr = {
+  pvals <- replicate(20, expr = {
+    cases = rnorm(10,30,2)
+    controls = rnorm(10,30,2)
+    t.test(cases,controls)$p.val
+  })
+  sum(pvals < 0.05)
+})
+mean(found)
 
-for(i in 1:1000){
-  a <- replicate(20, t.test(rnorm(10,30,2),rnorm(10,30,2))$p.val)
-  n[i] <- sum(a<=0.05)
-}
+
 set.seed(100)
-a <- replicate(1000, (sum((replicate(20, t.test(rnorm(10,30,2),rnorm(10,30,2))$p.val)<=0.05))>0))
-sum(a)
+had.found <- replicate(1000, expr = {
+  pvals <- replicate(20, expr = {
+    cases = rnorm(10,30,2)
+    controls = rnorm(10,30,2)
+    t.test(cases,controls)$p.val
+  })
+  sum(pvals < 0.05) > 0
+})
+mean(had.found)
+
 
 source("http://bioconductor.org/biocLite.R")
 biocLite("Biobase")
@@ -55,6 +78,11 @@ a <- 1-(1-0.05)^(1/8793)
 z <- replicate(10000 , sum(runif(8793,0,1) <= a) )
 mean(z)
 
+set.seed(1)
+a <- 0.05/8793
+z <- replicate(10000 , sum(runif(8793,0,1) <= a) )
+mean(z)
+
 load("03 -/GSE5859Subset/data/GSE5859Subset.rda")
 biocLite("genefilter")
 
@@ -64,6 +92,8 @@ a <- rowttests(x = geneExpression, fac = as.factor(c(rep(1,12), rep(0,12))))
 class(a)
 sum(a[,"p.value"] < 0.05)
 sum(a[,"p.value"] < (0.05 /nrow(a) ))
+sum(a[,"p.value"] < (1 - (1-0.05)^(1/8793)))
+
 ?p.adjust
 sum(p.adjust(p = a[,"p.value"] , method = "fdr") < 0.05)
 source("http://bioconductor.org/biocLite.R")

@@ -53,3 +53,45 @@ abline(h=c(1/2,1,2))
 
 plot(log2(time/median(time)),ylim=c(-2,2))
 abline(h=-1:1)
+
+
+## Robust Summaries
+#  part 1
+
+data(ChickWeight)
+head(ChickWeight)
+plot( ChickWeight$Time, ChickWeight$weight, col=ChickWeight$Diet)
+chick = reshape(ChickWeight, idvar=c("Chick","Diet"), timevar="Time",
+                direction="wide")
+head(chick)
+chick = na.omit(chick)
+w4 <- chick$weight.4
+mean(c(w4, 3000)) / mean(w4)
+median(c(w4, 3000)) / median(w4)
+sd(c(w4, 3000)) / sd(w4)
+mad(c(w4, 3000)) / mad(w4)
+plot(x = chick$weight.4, y = chick$weight.21)
+x = chick$weight.4; y = chick$weight.21
+cor(c(x,3000), c(y, 3000), method = "spearman") / cor(x,y, method = "spearman")
+cor(c(x,3000), c(y, 3000)) / cor(x,y)
+
+
+# part 2
+x <- chick[chick$Diet == 1, "weight.4"]
+y <- chick[chick$Diet == 4, "weight.4"]
+t.test(x,y)$p.value
+t.test(c(x,200), y)$p.value
+wilcox.test(x,y)
+wilcox.test(c(x,200),y)
+
+library(rafalib)
+mypar(1,3)
+boxplot(x,y)
+boxplot(x,y+10)
+boxplot(x,y+100)
+
+t.test(x,y)$statistic
+t.test(x,y+10)$statistic - t.test(x,y+100)$statistic
+
+wilcox.test(1:3, 4:6)
+wilcox.test(1:3, 4:6*100)
